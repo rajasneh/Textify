@@ -15,29 +15,33 @@ dotenv.config();
 
 const PORT = process.env.PORT;
 const __dirname = path.resolve();
+import helmet from "helmet";
+
 app.use(
   helmet({
     contentSecurityPolicy: {
-      useDefaults: true,
       directives: {
         defaultSrc: ["'self'"],
-        fontSrc: [
-          "'self'",
-          "https://fonts.gstatic.com",
-          "data:", // Allow base64 fonts
-        ],
+        scriptSrc: ["'self'", "'unsafe-inline'"],
         styleSrc: [
           "'self'",
           "'unsafe-inline'", // Required for Google Fonts
           "https://fonts.googleapis.com",
         ],
-        scriptSrc: ["'self'", "'unsafe-inline'"],
+        fontSrc: [
+          "'self'",
+          "data:", // Allow base64 fonts
+          "https://fonts.gstatic.com",
+        ],
         imgSrc: ["'self'", "data:"],
         connectSrc: ["'self'", "https://fonts.gstatic.com"],
+        objectSrc: ["'none'"],
+        upgradeInsecureRequests: [],
       },
     },
   })
 );
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(
