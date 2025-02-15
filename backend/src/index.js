@@ -18,12 +18,22 @@ const __dirname = path.resolve();
 app.use(
   helmet({
     contentSecurityPolicy: {
+      useDefaults: true,
       directives: {
         defaultSrc: ["'self'"],
-        fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
-        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+        fontSrc: [
+          "'self'",
+          "https://fonts.gstatic.com",
+          "data:", // Allow base64 fonts
+        ],
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'", // Required for Google Fonts
+          "https://fonts.googleapis.com",
+        ],
         scriptSrc: ["'self'", "'unsafe-inline'"],
         imgSrc: ["'self'", "data:"],
+        connectSrc: ["'self'", "https://fonts.gstatic.com"],
       },
     },
   })
