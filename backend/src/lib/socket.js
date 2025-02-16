@@ -8,6 +8,7 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: ["https://textify-1g07.onrender.com"],
+    credentials:true,
   },
 });
 
