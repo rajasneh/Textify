@@ -3,13 +3,7 @@ import { axiosInstance } from "../lib/axios.js";
 import toast from "react-hot-toast";
 import { io } from "socket.io-client";
 
-const IS_PROD = true; // ✅ Set to true for production, false for development
-
-const BASE_URL = IS_PROD
-  ? "https://textifybackend-9z34.onrender.com" // ✅ Production backend URL
-  : "http://localhost:5001"; // ✅ Local backend URL for development
-
-
+const BASE_URL = "https://textifybackend-9z34.onrender.com";
 
 export const useAuthStore = create((set, get) => ({
   authUser: null,
