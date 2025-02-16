@@ -21,7 +21,7 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: process.env.NODE_ENV === "production"
-      ? "https://your-frontend-domain.com" // ✅ Replace with your actual deployed frontend URL
+      ? "https://textify-1g07.onrender.com" // ✅ Replace with your actual deployed frontend URL
       : "http://localhost:5173",
     credentials: true,
   })
