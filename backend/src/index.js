@@ -20,13 +20,10 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: process.env.NODE_ENV === "production"
-      ? "https://textify-1g07.onrender.com" // ✅ Replace with your actual deployed frontend URL
-      : "http://localhost:5173",
+    origin: "https://textify-1g07.onrender.com",
     credentials: true,
   })
 );
-
 
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
