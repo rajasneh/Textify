@@ -7,30 +7,41 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173"],
+    origin: [
+      "http://localhost:5173", // Keep for local development
+      "https://textify-1g07.onrender.com", // ✅ Replace with your deployed frontend URL
+    ],
   },
 });
 
-export function getReceiverSocketId(userId) {
-  return userSocketMap[userId];
-}
-
-// used to store online users
+// Used to store online users
 const userSocketMap = {}; // {userId: socketId}
+
+export function getReceiverSocketId(userId) {
+  return userSocketMap[userId] || null; // Ensure it returns null if userId is not found
+}
 
 io.on("connection", (socket) => {
   console.log("A user connected", socket.id);
 
   const userId = socket.handshake.query.userId;
-  if (userId) userSocketMap[userId] = socket.id;
-
-  // io.emit() is used to send events to all the connected clients
-  io.emit("getOnlineUsers", Object.keys(userSocketMap));
+  if (userId) {
+    userSocketMap[userId] = socket.id;
+    io.emit("getOnlineUsers", Object.keys(userSocketMap));
+  }
 
   socket.on("disconnect", () => {
     console.log("A user disconnected", socket.id);
-    delete userSocketMap[userId];
-    io.emit("getOnlineUsers", Object.keys(userSocketMap));
+
+    // Find the userId corresponding to the socket.id
+    const disconnectedUserId = Object.keys(userSocketMap).find(
+      (key) => userSocketMap[key] === socket.id
+    );
+
+    if (disconnectedUserId) {
+      delete userSocketMap[disconnectedUserId];
+      io.emit("getOnlineUsers", Object.keys(userSocketMap));
+    }
   });
 });
 
