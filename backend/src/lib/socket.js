@@ -7,10 +7,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: [
-      "http://localhost:5173", // Keep for local development
-      "https://textify-1g07.onrender.com", // ✅ Replace with your deployed frontend URL
-    ],
+    origin: ["https://textifybackend-9z34.onrender.com"],
   },
 });
 
